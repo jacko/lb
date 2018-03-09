@@ -38,7 +38,7 @@ module.exports = function(server) {
       failureRedirect: '/login' })
   );
 
-  router.post('/login/callback',
+  router.post('/login/cb',
     passport.authenticate('saml', {
       failureRedirect: '/check',
       failureFlash: true }),
