@@ -33,18 +33,32 @@ module.exports = function(server) {
 
   router.get('/login',
     passport.authenticate('saml', {
-      successRedirect: '/',
+      successRedirect: '/check',
       failureRedirect: '/login' })
   );
 
   router.post('/login/callback',
     passport.authenticate('saml', {
-      failureRedirect: '/',
+      failureRedirect: '/check',
       failureFlash: true }),
     function(req, res) {
-      res.redirect('/');
+      res.redirect('/check');
     }
   );
 
+  router.get('/check', function(req, res, next) {
+    if(req.isAuthenticated())
+    {
+      res.writeHead(200, {"Content-Type": "text/plain"});
+      res.end( 'user' + req.user.displayName + ' | mail: ' + req.user.email );
+    }
+    else
+    {
+      res.writeHead(200, {"Content-Type": "text/plain"});
+      res.end("Not authorized ;(");
+    }
+  });
+
+  
   server.use(router);
 };
