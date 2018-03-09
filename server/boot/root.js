@@ -9,13 +9,23 @@ module.exports = function(server) {
 
   var passport = require('passport');
   var SamlStrategy = require('passport-saml').Strategy;
-
+  var session = require('express-session');
+  
   passport.serializeUser(function (user, done) {
     done(null, user);
   });
   passport.deserializeUser(function (user, done) {
     done(null, user);
   });
+
+  router.use(session(
+    {
+      resave: true,
+      saveUninitialized: true,
+      secret: 'this shit hits'
+    }));
+    router.use(passport.initialize());
+    router.use(passport.session());
 
   passport.use(new SamlStrategy(
     {
@@ -35,7 +45,8 @@ module.exports = function(server) {
   router.get('/login',
     passport.authenticate('saml', {
       successRedirect: '/check',
-      failureRedirect: '/check' })
+      failureRedirect: '/check',
+      failureFlash: true })
   );
 
   router.post('/login/cb',
