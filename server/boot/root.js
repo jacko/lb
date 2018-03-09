@@ -35,7 +35,7 @@ module.exports = function(server) {
   router.get('/login',
     passport.authenticate('saml', {
       successRedirect: '/check',
-      failureRedirect: '/login' })
+      failureRedirect: '/check' })
   );
 
   router.post('/login/cb',
@@ -56,7 +56,7 @@ module.exports = function(server) {
     else
     {
       res.writeHead(200, {"Content-Type": "text/plain"});
-      res.end("Not authorized ;(");
+      res.end("Not authorized ;(" + JSON.stringify(res));
     }
   });
 
