@@ -19,7 +19,8 @@ module.exports = function(server) {
 
   passport.use(new SamlStrategy(
     {
-      path: '/login/callback',
+      path: '/login/cb',
+      protocol: "https://",
       entryPoint: 'https://login.microsoftonline.com/13aa2ace-854b-499c-a0c8-296b82eac95a/saml2',
       issuer: 'mytestapp',
     //  cert: fs.readFileSync('./cert.cer', 'utf-8'),  
